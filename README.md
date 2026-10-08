@@ -55,13 +55,13 @@ Each pattern has three projects of increasing difficulty: **Easy**, **Medium** a
 
 ## Progress
 
-**2 / 72 projects completed.** Full project descriptions and what each one focuses on are in **[CHECKLIST.md](CHECKLIST.md)**.
+**3 / 72 projects completed.** Full project descriptions and what each one focuses on are in **[CHECKLIST.md](CHECKLIST.md)**.
 
 ### Creational
 
 | Pattern | Easy | Medium | Hard |
 |---|---|---|---|
-| Singleton | ⬜ Application Logger | ⬜ Configuration Manager | ⬜ Generic Singleton Template |
+| Singleton | ✅ Application Logger | ⬜ Configuration Manager | ⬜ Generic Singleton Template |
 | Factory Method | ⬜ Shape Creator | ⬜ Notification Sender | ⬜ Self-Registering Factory |
 | Abstract Factory | ⬜ Cross-Platform GUI Widgets | ⬜ Database Access Layer | ⬜ Themed Game World Generator |
 | Builder | ⬜ Pizza Builder | ⬜ HTTP Request Builder | ⬜ Compile-Time Checked SQL Builder |
@@ -109,7 +109,10 @@ Patterns are grouped by their GoF category. Each project lives in its own folder
 ```
 .
 ├── Creational/
-│   └── <Pattern>/{Easy,Medium,Hard}/
+│   └── Singleton/
+│       └── Easy/          # Application Logger
+│           ├── Singleton.hpp / Singleton.cpp
+│           └── main.cpp
 ├── Structural/
 │   └── <Pattern>/{Easy,Medium,Hard}/
 ├── Behavioral/
@@ -149,6 +152,19 @@ weather_station.exe
 ---
 
 ## Completed examples
+
+### Singleton: Application Logger (Easy)
+
+`Creational/Singleton/Easy/`
+
+A `Logger` with `info()`, `warning()` and `error()` and a configurable log level. Exactly one instance exists, and every part of the program reaches it through `Logger::getInstance()`.
+
+Key ideas demonstrated:
+
+- **Meyers singleton**: a function-local `static Logger instance` inside `getInstance()`, which is thread-safe to initialize since C++11.
+- **No other way to create a logger**: the constructor is private, and the copy/move constructors and assignments are `= delete`.
+- **Log level as a threshold**: the three public functions forward to one private `log(level, msg)`, which prints only messages at or above the current level. `setLevel()` changes it once for the whole program.
+- `main.cpp` shows level filtering, that `getInstance()` always returns the same address, and that a level set in `main` also applies inside other functions.
 
 ### Observer: Weather Station (Easy)
 

@@ -9,7 +9,7 @@ Each project lives in `<Category>/<Pattern>/<Level>/` (e.g. `Behavioral/Observer
 
 ### Singleton
 
-- [ ] **Application Logger** / Easy
+- [x] **Application Logger** / Easy
   A `Logger` with `info()`, `warning()`, `error()` that writes to the console and has a configurable log level. Only one instance may exist; copying and moving must be impossible.
   *Focus:* Meyers singleton (`static` local), deleted copy/move constructors and assignment, private constructor.
 
