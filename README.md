@@ -55,7 +55,7 @@ Each pattern has three projects of increasing difficulty: **Easy**, **Medium** a
 
 ## Progress
 
-**1 / 72 projects completed.** Full project descriptions and what each one focuses on are in **[CHECKLIST.md](CHECKLIST.md)**.
+**2 / 72 projects completed.** Full project descriptions and what each one focuses on are in **[CHECKLIST.md](CHECKLIST.md)**.
 
 ### Creational
 
@@ -91,7 +91,7 @@ Each pattern has three projects of increasing difficulty: **Easy**, **Medium** a
 | Chain of Responsibility | ⬜ Ticket Escalation | ⬜ HTTP Middleware | ⬜ GUI Event Bubbling |
 | Template Method | ⬜ Hot Beverages | ⬜ Report Generator (NVI) | ⬜ Mini Unit-Test Framework |
 | Iterator | ⬜ Playlist Iterator | ⬜ Binary Tree Traversals | ⬜ Lazy Range Adapters |
-| State | ⬜ Traffic Light | ⬜ Vending Machine | ⬜ TCP Connection |
+| State | ✅ Traffic Light | ⬜ Vending Machine | ⬜ TCP Connection |
 | Mediator | ⬜ Chat Room | ⬜ Registration Dialog | ⬜ Air Traffic Control |
 | Memento | ⬜ Text Editor Snapshots | ⬜ Game Save System | ⬜ Incremental Snapshots |
 | Visitor | ⬜ Shape Calculations | ⬜ Document Exporter | ⬜ AST: Visitor vs. `std::variant` |
@@ -113,10 +113,14 @@ Patterns are grouped by their GoF category. Each project lives in its own folder
 ├── Structural/
 │   └── <Pattern>/{Easy,Medium,Hard}/
 ├── Behavioral/
-│   └── Observer/
-│       └── Easy/          # Weather Station
-│           ├── Subject.hpp / Subject.cpp
-│           ├── Observer.hpp / Observer.cpp
+│   ├── Observer/
+│   │   └── Easy/          # Weather Station
+│   │       ├── Subject.hpp / Subject.cpp
+│   │       ├── Observer.hpp / Observer.cpp
+│   │       └── main.cpp
+│   └── State/
+│       └── Easy/          # Traffic Light
+│           ├── State.hpp / State.cpp
 │           └── main.cpp
 ├── CHECKLIST.md           # All 72 projects, levels and focus points
 └── README.md
@@ -163,6 +167,19 @@ Key ideas demonstrated:
 - Subscribing and unsubscribing at runtime, shown in `main.cpp` by detaching and re-attaching the forecast display.
 
 Known limitations, which the Medium project addresses: observers are held as raw pointers, so destroying one without detaching it leaves a dangling pointer, and detaching from inside `update()` would invalidate the iteration.
+
+### State: Traffic Light (Easy)
+
+`Behavioral/State/Easy/`
+
+A `TrafficLightContext` cycles through `Red → Green → Yellow → Red`. Each light is its own state class (`RedLightState`, `GreenLightState`, `YellowLightState`) that shows its colour, waits for its duration, and then chooses the next state itself.
+
+Key ideas demonstrated:
+
+- **Transitions owned by the states** (classic GoF style). Each state calls `ctx.updateState(...)` with its successor, so neither `main` nor the context contains any `if` / `switch` on the current state.
+- **The context only delegates**: `next()` and `pressPedestrianButton()` forward to the current state.
+- **State-dependent behaviour for the same action.** Pressing the pedestrian button shortens Green (once per cycle), while Red and Yellow ignore it.
+- **Safe ownership with `std::unique_ptr`.** The state is replaced as the last step of `handle()`, so the old state object is never used after it is destroyed.
 
 ---
 

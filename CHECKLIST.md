@@ -297,7 +297,7 @@ Each project lives in `<Category>/<Pattern>/<Level>/` (e.g. `Behavioral/Observer
 
 ### State
 
-- [ ] **Traffic Light** / Easy
+- [x] **Traffic Light** / Easy
   A `TrafficLight` cycles `Red → Green → Yellow → Red` on each `next()` call, and each state prints its own behaviour and duration. Add a `PedestrianButton` press that shortens the Green state.
   *Focus:* one class per state, the context delegating to the current state, states triggering transitions.
 
