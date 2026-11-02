@@ -255,7 +255,7 @@ Each project lives in `<Category>/<Pattern>/<Level>/` (e.g. `Behavioral/Observer
 
 ### Adapter
 
-- [ ] **Temperature Sensor Adapter** / Easy
+- [x] **Temperature Sensor Adapter** / Easy
   Your app expects an `ITemperatureSensor` with `double getCelsius()`. You get a third-party `FahrenheitSensor` class with `float readF()` that you can't modify. Write an adapter so the app works with it unchanged.
   *Focus:* object adapter (composition), the target / adaptee / adapter roles.
 

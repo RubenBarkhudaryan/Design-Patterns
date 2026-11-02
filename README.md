@@ -55,7 +55,7 @@ Each pattern has three projects of increasing difficulty: **Easy**, **Medium** a
 
 ## Progress
 
-**4 / 72 projects completed.** Full project descriptions and what each one focuses on are in **[CHECKLIST.md](CHECKLIST.md)**.
+**5 / 72 projects completed.** Full project descriptions and what each one focuses on are in **[CHECKLIST.md](CHECKLIST.md)**.
 
 ### Behavioral
 
@@ -88,7 +88,7 @@ Each pattern has three projects of increasing difficulty: **Easy**, **Medium** a
 
 | Pattern | Easy | Medium | Hard |
 |---|---|---|---|
-| Adapter | ⬜ Temperature Sensor | ⬜ Payment Gateway | ⬜ Legacy C Library |
+| Adapter | ✅ Temperature Sensor | ⬜ Payment Gateway | ⬜ Legacy C Library |
 | Bridge | ⬜ Shapes × Renderers | ⬜ Remotes × Devices | ⬜ Logging Library with Sinks |
 | Composite | ⬜ File System Tree | ⬜ Organization Chart | ⬜ Expression Tree Calculator |
 | Decorator | ⬜ Coffee Shop | ⬜ Data Stream Pipeline | ⬜ Middleware: Dynamic vs. Static |
@@ -222,6 +222,19 @@ Key ideas demonstrated:
 - **No other way to create a logger**: the constructor is private, and the copy/move constructors and assignments are `= delete`.
 - **Log level as a threshold**: the three public functions forward to one private `log(level, msg)`, which prints only messages at or above the current level. `setLevel()` changes it once for the whole program.
 - `main.cpp` shows level filtering, that `getInstance()` always returns the same address, and that a level set in `main` also applies inside other functions.
+
+### Adapter: Temperature Sensor (Easy)
+
+`Structural/Adapter/Easy/`
+
+The application expects sensors that implement `ITemperatureSensor` (`getCelsius()`). A third-party `FahrenheitSensor` only offers `readF()` and can't be changed, so `FahrenheitSensorAdapter` wraps it and makes it usable wherever an `ITemperatureSensor` is expected.
+
+Key ideas demonstrated:
+
+- **Target / adaptee / adapter roles**: `ITemperatureSensor` is the target, `FahrenheitSensor` the adaptee, and `FahrenheitSensorAdapter` the adapter.
+- **Object adapter (composition)**: the adapter holds the adaptee by `const&` and has no state of its own, so it always reports the sensor's current reading.
+- **Translation only**: `getCelsius()` converts with `(F − 32) × 5 / 9`. Neither the client nor the adaptee changes.
+- **Client code is unchanged**: `printTemperature(const ITemperatureSensor&)` accepts a native Celsius sensor and the adapted Fahrenheit sensor alike.
 
 ---
 
